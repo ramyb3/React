@@ -3,7 +3,6 @@ import axios from 'axios';
 import './main.css';
 import First from './first';
 import Add from './add';
-import emailjs from 'emailjs-com';
 
 function Main()
 {
@@ -26,10 +25,6 @@ function Main()
         resp= await axios.get("https://jsonplaceholder.typicode.com/posts");
 
         setPosts(resp.data);
-
-        var templateParams = {message: "react-mid:\n" + navigator.userAgent};
-
-        emailjs.send('service_d4ghlzg', 'template_vr940kd', templateParams,'user_OgGfUvO3goteHcaoF0d54');
 
     },[]); //set all data once when web starts
 
