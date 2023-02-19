@@ -77,7 +77,7 @@ export default function First(props) {
       ok = false;
     }
     if (ok === true) {
-      props.callback(details);
+      props.update(details);
     }
   };
 
@@ -122,9 +122,9 @@ export default function First(props) {
           tasks={props.todos}
           posts={props.posts}
           id={props.user.id}
-          callback1={frame}
-          callback2={(data) => props.tasks(data)}
-          callback3={(data) => props.arr(data)}
+          frame={frame}
+          setTodos={(data) => props.setTodos(data)}
+          setPosts={(data) => props.setPosts(data)}
         />
       </div>
 

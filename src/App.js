@@ -119,40 +119,40 @@ export default function App() {
         }}
       >
         <Add
-          callback={showOrHide}
-          user={users}
-          added={(data) => setUsers([...users, data])}
+          users={users}
+          showOrHide={showOrHide}
+          setUsers={(data) => setUsers([...users, data])}
         />
       </div>
 
       {check === true // check result of search
-        ? users.map((x, index) => {
+        ? users.map((user, index) => {
             //all users
             return (
               <First
-                user={x}
-                callback={(data) => updated(data)}
-                delete={(data) => deleted(data)}
-                posts={posts.filter((z) => z.userId === x.id)}
-                todos={todos.filter((z) => z.userId === x.id)}
-                tasks={(data) => setTodos([...todos, data])}
-                arr={(data) => setPosts([...posts, data])}
                 key={index}
+                user={user}
+                posts={posts.filter((x) => x.userId === user.id)}
+                todos={todos.filter((x) => x.userId === user.id)}
+                update={(data) => updated(data)}
+                delete={(data) => deleted(data)}
+                setTodos={(data) => setTodos([...todos, data])}
+                setPosts={(data) => setPosts([...posts, data])}
               />
             );
           })
-        : search.map((x, index) => {
+        : search.map((user, index) => {
             //only users of search
             return (
               <First
-                user={x}
-                callback={(data) => updated(data)}
-                delete={(data) => deleted(data)}
-                posts={posts.filter((z) => z.userId === x.id)}
-                todos={todos.filter((z) => z.userId === x.id)}
-                tasks={(data) => setTodos([...todos, data])}
-                arr={(data) => setPosts([...posts, data])}
                 key={index}
+                user={user}
+                posts={posts.filter((x) => x.userId === user.id)}
+                todos={todos.filter((x) => x.userId === user.id)}
+                update={(data) => updated(data)}
+                delete={(data) => deleted(data)}
+                setTodos={(data) => setTodos([...todos, data])}
+                setPosts={(data) => setPosts([...posts, data])}
               />
             );
           })}

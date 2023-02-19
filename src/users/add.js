@@ -2,37 +2,35 @@ import { useState } from "react";
 import "../App.css";
 
 export default function Add(props) {
-  const [names, setNames] = useState("");
-  const [emails, setEmails] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
   // add user
   const add = () => {
-    if (emails === "" || names === "") {
+    if (email === "" || name === "") {
       // check if entered user empty
       alert("You must enter name and email to add user!");
     } else {
-      if (emails.includes("@")) {
+      if (email.includes("@")) {
         // check if entered email valid
         let obj;
-        let id = props.user.map((x) => x.id);
+        let id = props.users.map((x) => x.id);
 
         if (id.length !== 0) {
           // check if new user not the first user in system
           id = Math.max(...id); // get last user id
-          obj = { id: id + 1, name: names, email: emails };
-        } // if new user the first user in system
-        else {
-          obj = { id: 1, name: names, email: emails };
+          obj = { id: id + 1, name: name, email: email };
+        } else {
+          // if new user the first user in system
+          obj = { id: 1, name: name, email: email };
         }
 
-        props.added(obj); //add user to data
-
+        props.setUsers(obj); //add user to data
         document.getElementById("name").value = ""; // clear name
         document.getElementById("email").value = ""; // clear email
-
-        props.callback(); // hide addUser box
-      } // if entered email that isn't valid
-      else {
+        props.showOrHide(); // hide addUser box
+      } else {
+        // if entered email that isn't valid
         alert("You must enter a validate email!");
       }
     }
@@ -42,33 +40,34 @@ export default function Add(props) {
   const cancel = () => {
     document.getElementById("name").value = ""; // clear name
     document.getElementById("email").value = ""; // clear email
-
-    props.callback();
+    props.showOrHide();
   };
 
   return (
     <div className="box" style={{ width: "15rem", height: "75px" }}>
-      &nbsp;
       <input
         placeholder="Enter Name"
         type="text"
         id="name"
-        onChange={(e) => setNames(e.target.value)}
-      />{" "}
-      <br />
-      &nbsp;
+        onChange={(e) => setName(e.target.value)}
+      />
       <input
         placeholder="Enter Email"
         type="email"
         id="email"
-        onChange={(e) => setEmails(e.target.value)}
-      />{" "}
-      <br />
-      <div className="right">
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <div
+        className="right"
+        style={{
+          display: "flex",
+          gap: "4px",
+          paddingRight: "3px",
+          paddingTop: "5px",
+        }}
+      >
         <button onClick={cancel}>Cancel</button>
-        &nbsp;&nbsp;{/* 2 spaces */}
         <button onClick={add}>Add</button>
-        &nbsp;
       </div>
     </div>
   );

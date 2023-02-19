@@ -21,7 +21,7 @@ export default function TasksComp(props) {
 
     const arr = tasks.filter((x) => x.id !== props.tasks[e.target.name].id);
     setTasks([obj, ...arr]);
-    props.callback1(); // check color of frame
+    props.frame(); // check color of frame
   };
 
   //show all todos/posts
@@ -45,7 +45,7 @@ export default function TasksComp(props) {
           completed: false,
         };
 
-        props.callback2(obj); // add this todo to all todos
+        props.setTodos(obj); // add this todo to all todos
         setTodo(true); //show all todos
       } else {
         //if entered empty todo
@@ -61,7 +61,7 @@ export default function TasksComp(props) {
           body: newBody,
         };
 
-        props.callback3(obj); // add this post to all posts
+        props.setPosts(obj); // add this post to all posts
         setPost(true); //show all todos
       } else {
         //if entered post empty
@@ -73,10 +73,13 @@ export default function TasksComp(props) {
   return (
     <div
       style={{
-        height: "2.5in",
+        height: "3.2in",
         overflowY: "scroll",
         float: "right",
         width: "49%",
+        display: "flex",
+        flexDirection: "column",
+        gap: "15px",
       }}
     >
       {showTodo === true ? ( //check if clicked add todo
@@ -84,109 +87,126 @@ export default function TasksComp(props) {
           <button className="right" onClick={() => setTodo(false)}>
             Add
           </button>
+          <h3>Todos - User {props.id}</h3>
 
-          <h3> Todos - User {props.id}</h3>
-
-          {props.tasks.map((x, index) => {
+          {props.tasks.map((task, index) => {
             //all todos
             return (
-              <div key={index}>
-                <div
-                  className="box"
-                  style={{ borderColor: "purple", minHeight: "45px" }}
-                >
-                  <b>Title:</b> {x.title} <br /> <b>Completed:</b>{" "}
-                  {x.completed.toString()} &nbsp;&nbsp;
-                  {x.completed === false ? ( //check if task complete
-                    <button name={index} onClick={mark}>
-                      Mark Completed
-                    </button>
-                  ) : null}
-                </div>
-                <br />
+              <div
+                key={index}
+                className="box"
+                style={{
+                  borderColor: "purple",
+                  minHeight: "45px",
+                  marginBottom: "10px",
+                }}
+              >
+                <b>Title:</b> {task.title} <br /> <b>Completed:</b>{" "}
+                {task.completed.toString()}
+                {task.completed === false ? (
+                  <button
+                    name={index}
+                    onClick={mark}
+                    style={{ marginLeft: "5px" }}
+                  >
+                    Mark Completed
+                  </button>
+                ) : null}
               </div>
             );
           })}
         </div>
       ) : (
         <div>
-          <h3> New Todo - User {props.id}</h3>
-
-          <div className="box" style={{ height: "50px" }}>
-            &nbsp;
+          <h3>New Todo - User {props.id}</h3>
+          <div
+            className="box"
+            style={{ height: "50px", display: "flex", flexDirection: "column" }}
+          >
             <input
               placeholder="Title"
-              style={{ width: "40%" }}
+              style={{ width: "40%", marginTop: "5px" }}
               type="text"
               onChange={(e) => setNewTask(e.target.value)}
             />
-            <br />
-            <div className="right">
+            <div
+              style={{
+                display: "flex",
+                gap: "4px",
+                paddingRight: "3px",
+                justifyContent: "end",
+              }}
+            >
               <button id="todo" onClick={cancel}>
                 Cancel
               </button>
-              &nbsp;&nbsp;
               <button id="todo" onClick={add}>
                 Add
               </button>
-              &nbsp;
             </div>
           </div>
         </div>
-      )}{" "}
-      <br />
+      )}
       {showPost === true ? ( //check if clicked add post
         <div className="box">
           <button className="right" onClick={() => setPost(false)}>
             Add
           </button>
+          <h3>Posts - User {props.id}</h3>
 
-          <h3> Posts - User {props.id}</h3>
-
-          {props.posts.map((x, index) => {
+          {props.posts.map((post, index) => {
             //all posts
             return (
-              <div key={index}>
-                <div className="box" style={{ borderColor: "purple" }}>
-                  <b>Title:</b> {x.title} <br /> <br />
-                  <b>Body:</b> {x.body} <br />
-                </div>
+              <div
+                key={index}
+                className="box"
+                style={{ borderColor: "purple", marginBottom: "10px" }}
+              >
+                <b>Title:</b> {post.title}
                 <br />
+                <b>Body:</b> {post.body}
               </div>
             );
           })}
         </div>
       ) : (
         <div>
-          <h3> New Post - User {props.id}</h3>
-
-          <div className="box" style={{ height: "93px" }}>
-            &nbsp;
+          <h3>New Post - User {props.id}</h3>
+          <div
+            className="box"
+            style={{
+              height: "93px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+            }}
+          >
             <input
               placeholder="Title"
-              style={{ width: "40%" }}
+              style={{ width: "40%", marginTop: "5px" }}
               type="text"
               onChange={(e) => setNewTitle(e.target.value)}
             />
-            <br />
-            <br />
-            &nbsp;
             <input
               placeholder="Body"
               style={{ width: "40%" }}
               type="text"
               onChange={(e) => setNewBody(e.target.value)}
             />
-            <br />
-            <div className="right">
+            <div
+              style={{
+                display: "flex",
+                gap: "4px",
+                paddingRight: "3px",
+                justifyContent: "end",
+              }}
+            >
               <button id="post" onClick={cancel}>
                 Cancel
               </button>
-              &nbsp;&nbsp;{/* 2 spaces */}
               <button id="post" onClick={add}>
                 Add
               </button>
-              &nbsp;
             </div>
           </div>
         </div>
