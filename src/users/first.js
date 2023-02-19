@@ -11,9 +11,10 @@ export default function First(props) {
     address: { street: "", city: "", zipcode: "" },
   });
 
+  //set details every time user change
   useEffect(() => {
     if (props.user.address) {
-      // if exist user
+      // if user exist
       setDetails({
         id: props.user.id,
         name: props.user.name,
@@ -24,8 +25,8 @@ export default function First(props) {
           zipcode: props.user.address.zipcode,
         },
       });
-    } // if new user
-    else {
+    } else {
+      // if new user
       setDetails({
         id: props.user.id,
         name: props.user.name,
@@ -35,14 +36,14 @@ export default function First(props) {
     }
 
     // check color of frame in start
-    let color = props.todos.find((x) => x.completed === false);
+    const color = props.todos.find((x) => x.completed === false);
 
     if (color !== undefined) {
       setCheck("red");
     } else {
       setCheck("green");
     }
-  }, [props]); //set details every time user change
+  }, [props]);
 
   //close box of other data
   const showHide = () => {
@@ -52,7 +53,6 @@ export default function First(props) {
       document.getElementById(props.user.id).style.visibility = "visible";
       ok = false;
     }
-
     if (ok === true) {
       document.getElementById(props.user.id).style.visibility = "hidden";
     }
@@ -69,30 +69,21 @@ export default function First(props) {
       details.address.street === "" ||
       details.address.zipcode === ""
     ) {
-      alert("You must fill all form!");
-
+      alert("You must fill all the form!");
       ok = false;
     }
-
     if (!details.email.includes("@")) {
       alert("You must enter a validate email!");
-
       ok = false;
     }
-
     if (ok === true) {
       props.callback(details);
     }
   };
 
-  //callback for parent comp to delete user
-  const deleteData = () => {
-    props.delete(props.user.id);
-  };
-
   //change color of user box if clicked
   const color = () => {
-    let temp = true;
+    let flag = true;
 
     if (
       document.getElementById(props.user.id + 300).style.visibility === "hidden"
@@ -101,13 +92,12 @@ export default function First(props) {
         "#ffd9b3";
       document.getElementById(props.user.id + 300).style.visibility = "visible";
 
-      temp = false;
+      flag = false;
     }
-
     if (
       document.getElementById(props.user.id + 300).style.visibility ===
         "visible" &&
-      temp === true
+      flag === true
     ) {
       document.getElementById(props.user.id + 100).style.backgroundColor = "";
       document.getElementById(props.user.id + 300).style.visibility = "hidden";
@@ -116,7 +106,7 @@ export default function First(props) {
 
   // check color of frame if mark completed
   const frame = () => {
-    let color = props.todos.find((x) => x.completed === false);
+    const color = props.todos.find((x) => x.completed === false);
 
     if (color !== undefined) {
       setCheck("red");
@@ -126,7 +116,7 @@ export default function First(props) {
   };
 
   return (
-    <div>
+    <div style={{ paddingBottom: "20px" }}>
       <div id={props.user.id + 300} style={{ visibility: "hidden" }}>
         <TasksComp
           tasks={props.todos}
@@ -200,7 +190,7 @@ export default function First(props) {
         &nbsp;
         <button onClick={update}>Update</button>
         &nbsp;
-        <button onClick={deleteData}>Delete</button>
+        <button onClick={() => props.delete(props.user.id)}>Delete</button>
         <br />
         <br />
         <div

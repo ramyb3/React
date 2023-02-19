@@ -61,16 +61,17 @@ export default function App() {
   const showOrHide = () => {
     let flag = false;
 
-    if (document.getElementById("0").style.visibility === "hidden") {
-      document.getElementById("0").style.visibility = "visible";
+    if (
+      document.getElementById("addUserButton").style.visibility === "hidden"
+    ) {
+      document.getElementById("addUserButton").style.visibility = "visible";
       flag = true;
     }
-
     if (
-      document.getElementById("0").style.visibility === "visible" &&
+      document.getElementById("addUserButton").style.visibility === "visible" &&
       flag === false
     ) {
-      document.getElementById("0").style.visibility = "hidden";
+      document.getElementById("addUserButton").style.visibility = "hidden";
     }
   };
 
@@ -100,20 +101,15 @@ export default function App() {
 
   return (
     <div style={{ borderStyle: "double", borderColor: "blue" }}>
-      <big>
-        {" "}
-        <b> Search: </b>
-      </big>
-      <input type="text" onChange={searchComp} />
-
-      <button className="right" onClick={showOrHide}>
-        Add
-      </button>
-      <br />
-      <br />
-
+      <div style={{ paddingBottom: "15px" }}>
+        <b style={{ fontSize: "20px" }}>Search: </b>
+        <input type="text" onChange={searchComp} />
+        <button className="right" onClick={showOrHide}>
+          Add
+        </button>
+      </div>
       <div
-        id="0"
+        id="addUserButton"
         style={{
           visibility: "hidden",
           backgroundColor: "#cce6ff",
@@ -133,35 +129,31 @@ export default function App() {
         ? users.map((x, index) => {
             //all users
             return (
-              <div key={index}>
-                <First
-                  user={x}
-                  callback={(data) => updated(data)}
-                  delete={(data) => deleted(data)}
-                  posts={posts.filter((z) => z.userId === x.id)}
-                  todos={todos.filter((z) => z.userId === x.id)}
-                  tasks={(data) => setTodos([...todos, data])}
-                  arr={(data) => setPosts([...posts, data])}
-                />
-                <br />
-              </div>
+              <First
+                user={x}
+                callback={(data) => updated(data)}
+                delete={(data) => deleted(data)}
+                posts={posts.filter((z) => z.userId === x.id)}
+                todos={todos.filter((z) => z.userId === x.id)}
+                tasks={(data) => setTodos([...todos, data])}
+                arr={(data) => setPosts([...posts, data])}
+                key={index}
+              />
             );
           })
         : search.map((x, index) => {
             //only users of search
             return (
-              <div key={index}>
-                <First
-                  user={x}
-                  callback={(data) => updated(data)}
-                  delete={(data) => deleted(data)}
-                  posts={posts.filter((z) => z.userId === x.id)}
-                  todos={todos.filter((z) => z.userId === x.id)}
-                  tasks={(data) => setTodos([...todos, data])}
-                  arr={(data) => setPosts([...posts, data])}
-                />
-                <br />
-              </div>
+              <First
+                user={x}
+                callback={(data) => updated(data)}
+                delete={(data) => deleted(data)}
+                posts={posts.filter((z) => z.userId === x.id)}
+                todos={todos.filter((z) => z.userId === x.id)}
+                tasks={(data) => setTodos([...todos, data])}
+                arr={(data) => setPosts([...posts, data])}
+                key={index}
+              />
             );
           })}
     </div>

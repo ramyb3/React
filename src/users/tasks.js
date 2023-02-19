@@ -16,24 +16,12 @@ export default function TasksComp(props) {
 
   // check completed task or not
   const mark = (e) => {
-    let obj = tasks.find((x) => x.id === props.tasks[e.target.name].id);
+    const obj = tasks.find((x) => x.id === props.tasks[e.target.name].id);
     obj.completed = true;
 
-    let arr = tasks.filter((x) => x.id !== props.tasks[e.target.name].id);
-
+    const arr = tasks.filter((x) => x.id !== props.tasks[e.target.name].id);
     setTasks([obj, ...arr]);
-
     props.callback1(); // check color of frame
-  };
-
-  //open add post box
-  const addPost = () => {
-    setPost(false);
-  };
-
-  //open add todo box
-  const addTodo = () => {
-    setTodo(false);
   };
 
   //show all todos/posts
@@ -59,9 +47,9 @@ export default function TasksComp(props) {
 
         props.callback2(obj); // add this todo to all todos
         setTodo(true); //show all todos
-      } //if entered todo empty
-      else {
-        alert("You must enter some title!!");
+      } else {
+        //if entered empty todo
+        alert("You must enter a title!!");
       }
     } else {
       if (newTitle !== "" && newBody !== "") {
@@ -75,9 +63,9 @@ export default function TasksComp(props) {
 
         props.callback3(obj); // add this post to all posts
         setPost(true); //show all todos
-      } //if entered post empty
-      else {
-        alert("You must enter title and body!!");
+      } else {
+        //if entered post empty
+        alert("You must enter a title and a body!!");
       }
     }
   };
@@ -93,36 +81,32 @@ export default function TasksComp(props) {
     >
       {showTodo === true ? ( //check if clicked add todo
         <div className="box">
-          <button className="right" onClick={addTodo}>
+          <button className="right" onClick={() => setTodo(false)}>
             Add
           </button>
 
           <h3> Todos - User {props.id}</h3>
 
-          {props.tasks.map(
-            (
-              x,
-              index //all todos
-            ) => {
-              return (
-                <div key={index}>
-                  <div
-                    className="box"
-                    style={{ borderColor: "purple", minHeight: "45px" }}
-                  >
-                    <b>Title:</b> {x.title} <br /> <b>Completed:</b>{" "}
-                    {x.completed.toString()} &nbsp;&nbsp;
-                    {x.completed === false ? ( //check if task complete
-                      <button name={index} onClick={mark}>
-                        Mark Completed
-                      </button>
-                    ) : null}
-                  </div>
-                  <br />
+          {props.tasks.map((x, index) => {
+            //all todos
+            return (
+              <div key={index}>
+                <div
+                  className="box"
+                  style={{ borderColor: "purple", minHeight: "45px" }}
+                >
+                  <b>Title:</b> {x.title} <br /> <b>Completed:</b>{" "}
+                  {x.completed.toString()} &nbsp;&nbsp;
+                  {x.completed === false ? ( //check if task complete
+                    <button name={index} onClick={mark}>
+                      Mark Completed
+                    </button>
+                  ) : null}
                 </div>
-              );
-            }
-          )}
+                <br />
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div>
@@ -153,28 +137,24 @@ export default function TasksComp(props) {
       <br />
       {showPost === true ? ( //check if clicked add post
         <div className="box">
-          <button className="right" onClick={addPost}>
+          <button className="right" onClick={() => setPost(false)}>
             Add
           </button>
 
           <h3> Posts - User {props.id}</h3>
 
-          {props.posts.map(
-            (
-              x,
-              index //all posts
-            ) => {
-              return (
-                <div key={index}>
-                  <div className="box" style={{ borderColor: "purple" }}>
-                    <b>Title:</b> {x.title} <br /> <br />
-                    <b>Body:</b> {x.body} <br />
-                  </div>
-                  <br />
+          {props.posts.map((x, index) => {
+            //all posts
+            return (
+              <div key={index}>
+                <div className="box" style={{ borderColor: "purple" }}>
+                  <b>Title:</b> {x.title} <br /> <br />
+                  <b>Body:</b> {x.body} <br />
                 </div>
-              );
-            }
-          )}
+                <br />
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div>
