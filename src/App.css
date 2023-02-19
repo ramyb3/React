@@ -1,0 +1,14 @@
+.right {
+  text-align: right;
+  float: right;
+}
+
+.button {
+  background-color: yellow;
+  cursor: pointer;
+}
+
+.box {
+  border-style: solid;
+  border-color: black;
+}
