@@ -72,14 +72,16 @@ export default function TasksComp(props) {
 
   return (
     <div
+      id={props.id + 300}
       style={{
-        height: "3.2in",
+        height: "3in",
         overflowY: "scroll",
         float: "right",
         width: "49%",
         display: "flex",
         flexDirection: "column",
         gap: "15px",
+        visibility: "hidden",
       }}
     >
       {showTodo === true ? ( //check if clicked add todo

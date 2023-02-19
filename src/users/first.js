@@ -117,144 +117,114 @@ export default function First(props) {
 
   return (
     <div style={{ paddingBottom: "20px" }}>
-      <div id={props.user.id + 300} style={{ visibility: "hidden" }}>
-        <TasksComp
-          tasks={props.todos}
-          posts={props.posts}
-          id={props.user.id}
-          frame={frame}
-          setTodos={(data) => props.setTodos(data)}
-          setPosts={(data) => props.setPosts(data)}
-        />
-      </div>
-
+      <TasksComp
+        tasks={props.todos}
+        posts={props.posts}
+        id={props.user.id}
+        frame={frame}
+        setTodos={(data) => props.setTodos(data)}
+        setPosts={(data) => props.setPosts(data)}
+      />
       <div
         id={props.user.id + 100}
-        style={{ borderColor: check, borderStyle: "solid", width: "49%" }}
+        className="box"
+        style={{ borderColor: check, width: "49%" }}
       >
         <big>
-          {" "}
           <b>
             <div style={{ cursor: "pointer" }} onClick={color}>
-              {" "}
-              ID: {props.user.id}{" "}
-            </div>{" "}
+              ID: {props.user.id}
+            </div>
             <br />
-            Name: <br />{" "}
+            Name:
+            <br />
             <input
               style={{ width: "150px" }}
               type="text"
               value={details.name}
-              onChange={(e) =>
-                setDetails({
-                  id: details.id,
-                  name: e.target.value,
-                  email: details.email,
-                  address: {
-                    street: details.address.street,
-                    city: details.address.city,
-                    zipcode: details.address.zipcode,
-                  },
-                })
-              }
-            />{" "}
+              onChange={(e) => setDetails({ ...details, name: e.target.value })}
+            />
             <br />
-            Email: <br />{" "}
+            Email:
+            <br />
             <input
               style={{ width: "150px" }}
               type="email"
               value={details.email}
               onChange={(e) =>
-                setDetails({
-                  id: details.id,
-                  name: details.name,
-                  email: e.target.value,
-                  address: {
-                    street: details.address.street,
-                    city: details.address.city,
-                    zipcode: details.address.zipcode,
-                  },
-                })
+                setDetails({ ...details, email: e.target.value })
               }
-            />{" "}
+            />
             <br />
             <br />
           </b>
         </big>
-        <button
-          style={{ backgroundColor: "grey", color: "whitesmoke" }}
-          onClick={showHide}
-        >
-          Other Data
-        </button>
-        &nbsp;
-        <button onClick={update}>Update</button>
-        &nbsp;
-        <button onClick={() => props.delete(props.user.id)}>Delete</button>
-        <br />
-        <br />
+        <div style={{ display: "flex", gap: "4px", paddingRight: "3px" }}>
+          <button
+            style={{ backgroundColor: "grey", color: "whitesmoke" }}
+            onClick={showHide}
+          >
+            Other Data
+          </button>
+          <button onClick={update}>Update</button>
+          <button onClick={() => props.delete(props.user.id)}>Delete</button>
+        </div>
         <div
           id={props.user.id}
           className="box"
-          style={{ visibility: "hidden", backgroundColor: "whitesmoke" }}
+          style={{
+            visibility: "hidden",
+            backgroundColor: "whitesmoke",
+            marginBottom: "5px",
+            marginTop: "5px",
+            display: "flex",
+            flexDirection: "column",
+            gpa: "5px",
+            paddingBottom: "5px",
+          }}
         >
-          Street:{" "}
-          <input
-            style={{ width: "100px" }}
-            type="text"
-            value={details.address.street}
-            onChange={(e) =>
-              setDetails({
-                id: details.id,
-                name: details.name,
-                email: details.email,
-                address: {
-                  street: e.target.value,
-                  city: details.address.city,
-                  zipcode: details.address.zipcode,
-                },
-              })
-            }
-          />{" "}
-          <br />
-          City:{" "}
-          <input
-            style={{ width: "100px" }}
-            type="text"
-            value={details.address.city}
-            onChange={(e) =>
-              setDetails({
-                id: details.id,
-                name: details.name,
-                email: details.email,
-                address: {
-                  street: details.address.street,
-                  city: e.target.value,
-                  zipcode: details.address.zipcode,
-                },
-              })
-            }
-          />{" "}
-          <br />
-          Zipcode:{" "}
-          <input
-            style={{ width: "100px" }}
-            type="text"
-            value={details.address.zipcode}
-            onChange={(e) =>
-              setDetails({
-                id: details.id,
-                name: details.name,
-                email: details.email,
-                address: {
-                  street: details.address.street,
-                  city: details.address.city,
-                  zipcode: e.target.value,
-                },
-              })
-            }
-          />{" "}
-          <br />
+          <span>
+            Street:{" "}
+            <input
+              style={{ width: "100px" }}
+              type="text"
+              value={details.address.street}
+              onChange={(e) =>
+                setDetails({
+                  ...details,
+                  address: { ...details.address, street: e.target.value },
+                })
+              }
+            />
+          </span>
+          <span>
+            City:{" "}
+            <input
+              style={{ width: "100px" }}
+              type="text"
+              value={details.address.city}
+              onChange={(e) =>
+                setDetails({
+                  ...details,
+                  address: { ...details.address, city: e.target.value },
+                })
+              }
+            />
+          </span>
+          <span>
+            Zipcode:{" "}
+            <input
+              style={{ width: "100px" }}
+              type="text"
+              value={details.address.zipcode}
+              onChange={(e) =>
+                setDetails({
+                  ...details,
+                  address: { ...details.address, zipcode: e.target.value },
+                })
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
