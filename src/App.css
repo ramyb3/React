@@ -1,11 +1,11 @@
+button {
+  background-color: yellow;
+  cursor: pointer;
+}
+
 .right {
   text-align: right;
   float: right;
-}
-
-.button {
-  background-color: yellow;
-  cursor: pointer;
 }
 
 .box {

@@ -65,14 +65,9 @@ export default function Add(props) {
       />{" "}
       <br />
       <div className="right">
-        <input
-          className="button"
-          type="button"
-          value="Cancel"
-          onClick={cancel}
-        />
+        <button onClick={cancel}>Cancel</button>
         &nbsp;&nbsp;{/* 2 spaces */}
-        <input className="button" type="button" value="Add" onClick={add} />
+        <button onClick={add}>Add</button>
         &nbsp;
       </div>
     </div>

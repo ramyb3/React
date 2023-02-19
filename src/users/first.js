@@ -191,27 +191,16 @@ export default function First(props) {
             <br />
           </b>
         </big>
-        <input
-          className="button"
+        <button
           style={{ backgroundColor: "grey", color: "whitesmoke" }}
-          type="button"
-          value="Other Data"
           onClick={showHide}
-        />
+        >
+          Other Data
+        </button>
         &nbsp;
-        <input
-          className="button"
-          type="button"
-          value="Update"
-          onClick={update}
-        />
+        <button onClick={update}>Update</button>
         &nbsp;
-        <input
-          className="button"
-          type="button"
-          value="Delete"
-          onClick={deleteData}
-        />{" "}
+        <button onClick={deleteData}>Delete</button>
         <br />
         <br />
         <div

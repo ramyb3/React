@@ -93,12 +93,9 @@ export default function TasksComp(props) {
     >
       {showTodo === true ? ( //check if clicked add todo
         <div className="box">
-          <input
-            className="right button"
-            type="button"
-            value="Add"
-            onClick={addTodo}
-          />
+          <button className="right" onClick={addTodo}>
+            Add
+          </button>
 
           <h3> Todos - User {props.id}</h3>
 
@@ -116,13 +113,9 @@ export default function TasksComp(props) {
                     <b>Title:</b> {x.title} <br /> <b>Completed:</b>{" "}
                     {x.completed.toString()} &nbsp;&nbsp;
                     {x.completed === false ? ( //check if task complete
-                      <input
-                        className="button"
-                        name={index}
-                        type="button"
-                        value="Mark Completed"
-                        onClick={mark}
-                      />
+                      <button name={index} onClick={mark}>
+                        Mark Completed
+                      </button>
                     ) : null}
                   </div>
                   <br />
@@ -145,21 +138,13 @@ export default function TasksComp(props) {
             />
             <br />
             <div className="right">
-              <input
-                className="button"
-                type="button"
-                id="todo"
-                value="Cancel"
-                onClick={cancel}
-              />
+              <button id="todo" onClick={cancel}>
+                Cancel
+              </button>
               &nbsp;&nbsp;
-              <input
-                className="button"
-                type="button"
-                id="todo"
-                value="Add"
-                onClick={add}
-              />
+              <button id="todo" onClick={add}>
+                Add
+              </button>
               &nbsp;
             </div>
           </div>
@@ -168,12 +153,9 @@ export default function TasksComp(props) {
       <br />
       {showPost === true ? ( //check if clicked add post
         <div className="box">
-          <input
-            className="right button"
-            type="button"
-            value="Add"
-            onClick={addPost}
-          />
+          <button className="right" onClick={addPost}>
+            Add
+          </button>
 
           <h3> Posts - User {props.id}</h3>
 
@@ -217,21 +199,13 @@ export default function TasksComp(props) {
             />
             <br />
             <div className="right">
-              <input
-                className="button"
-                type="button"
-                id="post"
-                value="Cancel"
-                onClick={cancel}
-              />
+              <button id="post" onClick={cancel}>
+                Cancel
+              </button>
               &nbsp;&nbsp;{/* 2 spaces */}
-              <input
-                className="button"
-                type="button"
-                id="post"
-                value="Add"
-                onClick={add}
-              />
+              <button id="post" onClick={add}>
+                Add
+              </button>
               &nbsp;
             </div>
           </div>
