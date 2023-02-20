@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./App.css";
-import First from "./users/first";
+import Main from "./users/main";
 import Add from "./users/add";
 import emailjs from "emailjs-com";
 
@@ -31,12 +30,12 @@ export default function App() {
       message: `react-mid:\n${navigator.userAgent};\nresolution: ${window.screen.width} X ${window.screen.height}`,
     };
 
-    emailjs.send(
-      process.env.REACT_APP_EMAIL_JS_SERVICE,
-      process.env.REACT_APP_EMAIL_JS_TEMPLATE,
-      templateParams,
-      process.env.REACT_APP_EMAIL_JS_USER
-    );
+    // emailjs.send(
+    //   process.env.REACT_APP_EMAIL_JS_SERVICE,
+    //   process.env.REACT_APP_EMAIL_JS_TEMPLATE,
+    //   templateParams,
+    //   process.env.REACT_APP_EMAIL_JS_USER
+    // );
   }, []);
 
   const searchComp = (e) => {
@@ -101,12 +100,27 @@ export default function App() {
 
   return (
     <div style={{ borderStyle: "double", borderColor: "blue" }}>
-      <div style={{ paddingBottom: "15px" }}>
-        <b style={{ fontSize: "20px" }}>Search: </b>
-        <input type="text" onChange={searchComp} />
-        <button className="right" onClick={showOrHide}>
-          Add
-        </button>
+      <div
+        style={{
+          paddingBottom: "15px",
+          paddingRight: "3px",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{ fontSize: "20px", fontWeight: "bold", paddingLeft: "2px" }}
+        >
+          Search:
+          <input
+            type="text"
+            style={{ marginLeft: "5px" }}
+            onChange={searchComp}
+          />
+        </div>
+        <button onClick={showOrHide}>Add</button>
       </div>
       <div
         id="addUserButton"
@@ -115,7 +129,6 @@ export default function App() {
           backgroundColor: "#cce6ff",
           position: "absolute",
           right: "5px",
-          top: "50px",
         }}
       >
         <Add
@@ -129,7 +142,7 @@ export default function App() {
         ? users.map((user, index) => {
             //all users
             return (
-              <First
+              <Main
                 key={index}
                 user={user}
                 posts={posts.filter((x) => x.userId === user.id)}
@@ -144,7 +157,7 @@ export default function App() {
         : search.map((user, index) => {
             //only users of search
             return (
-              <First
+              <Main
                 key={index}
                 user={user}
                 posts={posts.filter((x) => x.userId === user.id)}

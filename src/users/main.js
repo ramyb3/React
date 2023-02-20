@@ -1,15 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import TasksComp from "./tasks";
 import "../App.css";
 
-export default function First(props) {
-  const [check, setCheck] = useState();
+export default function Main(props) {
+  const ref = useRef(null);
+  const [height, setHeight] = useState(0);
+  const [frame, setFrame] = useState();
   const [details, setDetails] = useState({
     id: 0,
     name: "",
     email: "",
     address: { street: "", city: "", zipcode: "" },
   });
+
+  //set height of the layout when the app starts
+  useEffect(() => {
+    setHeight(ref.current.offsetHeight);
+  }, []);
 
   //set details every time user change
   useEffect(() => {
@@ -39,9 +46,9 @@ export default function First(props) {
     const color = props.todos.find((x) => x.completed === false);
 
     if (color !== undefined) {
-      setCheck("red");
+      setFrame("red");
     } else {
-      setCheck("green");
+      setFrame("green");
     }
   }, [props]);
 
@@ -105,61 +112,64 @@ export default function First(props) {
   };
 
   // check color of frame if mark completed
-  const frame = () => {
+  const frameColor = () => {
     const color = props.todos.find((x) => x.completed === false);
 
     if (color !== undefined) {
-      setCheck("red");
+      setFrame("red");
     } else {
-      setCheck("green");
+      setFrame("green");
     }
   };
 
   return (
-    <div style={{ paddingBottom: "20px" }}>
-      <TasksComp
-        tasks={props.todos}
-        posts={props.posts}
-        id={props.user.id}
-        frame={frame}
-        setTodos={(data) => props.setTodos(data)}
-        setPosts={(data) => props.setPosts(data)}
-      />
+    <div
+      style={{
+        paddingBottom: "20px",
+        paddingLeft: "2px",
+        display: "grid",
+        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+        gap: "5px",
+      }}
+    >
       <div
         id={props.user.id + 100}
         className="box"
-        style={{ borderColor: check, width: "49%" }}
+        style={{ borderColor: frame }}
+        ref={ref}
       >
-        <big>
-          <b>
-            <div style={{ cursor: "pointer" }} onClick={color}>
-              ID: {props.user.id}
-            </div>
-            <br />
-            Name:
-            <br />
-            <input
-              style={{ width: "150px" }}
-              type="text"
-              value={details.name}
-              onChange={(e) => setDetails({ ...details, name: e.target.value })}
-            />
-            <br />
-            Email:
-            <br />
-            <input
-              style={{ width: "150px" }}
-              type="email"
-              value={details.email}
-              onChange={(e) =>
-                setDetails({ ...details, email: e.target.value })
-              }
-            />
-            <br />
-            <br />
-          </b>
-        </big>
-        <div style={{ display: "flex", gap: "4px", paddingRight: "3px" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+            fontWeight: "bold",
+            fontSize: "20px",
+          }}
+        >
+          <div style={{ cursor: "pointer" }} onClick={color}>
+            ID: {props.user.id}
+          </div>
+          Name:
+          <Input
+            value={details.name}
+            onChange={(e) => setDetails({ ...details, name: e.target.value })}
+          />
+          Email:
+          <Input
+            value={details.email}
+            type="email"
+            onChange={(e) => setDetails({ ...details, email: e.target.value })}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: "4px",
+            paddingRight: "3px",
+            paddingTop: "10px",
+          }}
+        >
           <button
             style={{ backgroundColor: "grey", color: "whitesmoke" }}
             onClick={showHide}
@@ -179,15 +189,13 @@ export default function First(props) {
             marginTop: "5px",
             display: "flex",
             flexDirection: "column",
-            gpa: "5px",
+            gap: "5px",
             paddingBottom: "5px",
           }}
         >
           <span>
             Street:{" "}
-            <input
-              style={{ width: "100px" }}
-              type="text"
+            <Input
               value={details.address.street}
               onChange={(e) =>
                 setDetails({
@@ -199,9 +207,7 @@ export default function First(props) {
           </span>
           <span>
             City:{" "}
-            <input
-              style={{ width: "100px" }}
-              type="text"
+            <Input
               value={details.address.city}
               onChange={(e) =>
                 setDetails({
@@ -213,9 +219,7 @@ export default function First(props) {
           </span>
           <span>
             Zipcode:{" "}
-            <input
-              style={{ width: "100px" }}
-              type="text"
+            <Input
               value={details.address.zipcode}
               onChange={(e) =>
                 setDetails({
@@ -227,6 +231,26 @@ export default function First(props) {
           </span>
         </div>
       </div>
+      <TasksComp
+        tasks={props.todos}
+        posts={props.posts}
+        id={props.user.id}
+        frame={frameColor}
+        setTodos={(data) => props.setTodos(data)}
+        setPosts={(data) => props.setPosts(data)}
+        height={height}
+      />
     </div>
+  );
+}
+
+function Input(props) {
+  return (
+    <input
+      style={{ width: "150px" }}
+      type={props.type || "text"}
+      value={props.value}
+      onChange={props.onChange}
+    />
   );
 }

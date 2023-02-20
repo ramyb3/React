@@ -74,10 +74,8 @@ export default function TasksComp(props) {
     <div
       id={props.id + 300}
       style={{
-        height: "3in",
+        height: props.height,
         overflowY: "scroll",
-        float: "right",
-        width: "49%",
         display: "flex",
         flexDirection: "column",
         gap: "15px",
@@ -86,7 +84,10 @@ export default function TasksComp(props) {
     >
       {showTodo === true ? ( //check if clicked add todo
         <div className="box">
-          <button className="right" onClick={() => setTodo(false)}>
+          <button
+            style={{ float: "right", margin: "2px" }}
+            onClick={() => setTodo(false)}
+          >
             Add
           </button>
           <h3>Todos - User {props.id}</h3>
@@ -120,7 +121,7 @@ export default function TasksComp(props) {
         </div>
       ) : (
         <div>
-          <h3>New Todo - User {props.id}</h3>
+          <h3 style={{ marginTop: "3px" }}>New Todo - User {props.id}</h3>
           <div
             className="box"
             style={{ height: "50px", display: "flex", flexDirection: "column" }}
@@ -151,7 +152,10 @@ export default function TasksComp(props) {
       )}
       {showPost === true ? ( //check if clicked add post
         <div className="box">
-          <button className="right" onClick={() => setPost(false)}>
+          <button
+            style={{ float: "right", margin: "2px" }}
+            onClick={() => setPost(false)}
+          >
             Add
           </button>
           <h3>Posts - User {props.id}</h3>

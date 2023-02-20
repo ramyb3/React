@@ -3,13 +3,9 @@ button {
   cursor: pointer;
 }
 
-.right {
-  text-align: right;
-  float: right;
-}
-
 .box {
   padding-left: 2px;
+  padding-right: 2px;
   border-style: solid;
   border-color: black;
 }

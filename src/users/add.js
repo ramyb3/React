@@ -58,9 +58,9 @@ export default function Add(props) {
         onChange={(e) => setEmail(e.target.value)}
       />
       <div
-        className="right"
         style={{
           display: "flex",
+          justifyContent: "end",
           gap: "4px",
           paddingRight: "3px",
           paddingTop: "5px",
