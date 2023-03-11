@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "../App.css";
 
 export default function TasksComp(props) {
   const [tasks, setTasks] = useState([]);
@@ -16,10 +15,12 @@ export default function TasksComp(props) {
 
   // check completed task or not
   const mark = (e) => {
-    const obj = tasks.find((x) => x.id === props.tasks[e.target.name].id);
+    const obj = tasks.find((task) => task.id === props.tasks[e.target.name].id);
     obj.completed = true;
 
-    const arr = tasks.filter((x) => x.id !== props.tasks[e.target.name].id);
+    const arr = tasks.filter(
+      (task) => task.id !== props.tasks[e.target.name].id
+    );
     setTasks([obj, ...arr]);
     props.frame(); // check color of frame
   };
@@ -37,34 +38,30 @@ export default function TasksComp(props) {
   const add = (e) => {
     if (e.target.id === "todo") {
       if (newTask !== "") {
-        //if task not empty
-        let obj = {
+        const obj = {
           userId: props.id,
           id: tasks.length + 1,
           title: newTask,
           completed: false,
         };
 
-        props.setTodos(obj); // add this todo to all todos
-        setTodo(true); //show all todos
+        props.setTodos(obj);
+        setTodo(true);
       } else {
-        //if entered empty todo
         alert("You must enter a title!!");
       }
     } else {
       if (newTitle !== "" && newBody !== "") {
-        //if post not empty
-        let obj = {
+        const obj = {
           userId: props.id,
           id: props.posts.length + 1,
           title: newTitle,
           body: newBody,
         };
 
-        props.setPosts(obj); // add this post to all posts
-        setPost(true); //show all todos
+        props.setPosts(obj);
+        setPost(true);
       } else {
-        //if entered post empty
         alert("You must enter a title and a body!!");
       }
     }
@@ -72,7 +69,7 @@ export default function TasksComp(props) {
 
   return (
     <div
-      id={props.id + 300}
+      ref={props.tasksRef}
       style={{
         height: props.height,
         overflowY: "scroll",
@@ -82,7 +79,7 @@ export default function TasksComp(props) {
         visibility: "hidden",
       }}
     >
-      {showTodo === true ? ( //check if clicked add todo
+      {showTodo ? (
         <div className="box">
           <button
             style={{ float: "right", margin: "2px" }}
@@ -106,7 +103,7 @@ export default function TasksComp(props) {
               >
                 <b>Title:</b> {task.title} <br /> <b>Completed:</b>{" "}
                 {task.completed.toString()}
-                {task.completed === false ? (
+                {!task.completed ? (
                   <button
                     name={index}
                     onClick={mark}
@@ -150,7 +147,7 @@ export default function TasksComp(props) {
           </div>
         </div>
       )}
-      {showPost === true ? ( //check if clicked add post
+      {showPost ? (
         <div className="box">
           <button
             style={{ float: "right", margin: "2px" }}

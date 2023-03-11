@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import TasksComp from "./tasks";
-import "../App.css";
 
 export default function Main(props) {
-  const ref = useRef(null);
+  const boxRef = useRef(null);
+  const addressRef = useRef(null);
+  const tasksRef = useRef(null);
   const [height, setHeight] = useState(0);
   const [frame, setFrame] = useState();
   const [details, setDetails] = useState({
@@ -15,60 +16,32 @@ export default function Main(props) {
 
   //set height of the layout when the app starts
   useEffect(() => {
-    setHeight(ref.current.offsetHeight);
+    setHeight(boxRef.current.offsetHeight);
   }, []);
 
   //set details every time user change
   useEffect(() => {
-    if (props.user.address) {
-      // if user exist
-      setDetails({
-        id: props.user.id,
-        name: props.user.name,
-        email: props.user.email,
-        address: {
-          street: props.user.address.street,
-          city: props.user.address.city,
-          zipcode: props.user.address.zipcode,
-        },
-      });
-    } else {
-      // if new user
-      setDetails({
-        id: props.user.id,
-        name: props.user.name,
-        email: props.user.email,
-        address: { street: "", city: "", zipcode: "" },
-      });
-    }
+    const obj = {
+      id: props.user.id,
+      name: props.user.name,
+      email: props.user.email,
+      ...(props.user.address
+        ? { address: props.user.address }
+        : { address: { street: "", city: "", zipcode: "" } }),
+    };
 
-    // check color of frame in start
-    const color = props.todos.find((x) => x.completed === false);
-
-    if (color !== undefined) {
-      setFrame("red");
-    } else {
-      setFrame("green");
-    }
+    setDetails(obj);
+    frameColor();
   }, [props]);
 
   //close box of other data
   const showHide = () => {
-    let ok = true;
-
-    if (document.getElementById(props.user.id).style.visibility === "hidden") {
-      document.getElementById(props.user.id).style.visibility = "visible";
-      ok = false;
-    }
-    if (ok === true) {
-      document.getElementById(props.user.id).style.visibility = "hidden";
-    }
+    addressRef.current.style.visibility =
+      addressRef.current.style.visibility === "hidden" ? "visible" : "hidden";
   };
 
   //callback for parent comp to update user
   const update = () => {
-    let ok = true;
-
     if (
       details.name === "" ||
       details.email === "" ||
@@ -77,49 +50,28 @@ export default function Main(props) {
       details.address.zipcode === ""
     ) {
       alert("You must fill all the form!");
-      ok = false;
-    }
-    if (!details.email.includes("@")) {
+    } else if (!details.email.includes("@")) {
       alert("You must enter a validate email!");
-      ok = false;
-    }
-    if (ok === true) {
+    } else {
       props.update(details);
     }
   };
 
   //change color of user box if clicked
   const color = () => {
-    let flag = true;
-
-    if (
-      document.getElementById(props.user.id + 300).style.visibility === "hidden"
-    ) {
-      document.getElementById(props.user.id + 100).style.backgroundColor =
-        "#ffd9b3";
-      document.getElementById(props.user.id + 300).style.visibility = "visible";
-
-      flag = false;
-    }
-    if (
-      document.getElementById(props.user.id + 300).style.visibility ===
-        "visible" &&
-      flag === true
-    ) {
-      document.getElementById(props.user.id + 100).style.backgroundColor = "";
-      document.getElementById(props.user.id + 300).style.visibility = "hidden";
+    if (tasksRef.current.style.visibility === "hidden") {
+      boxRef.current.style.backgroundColor = "#ffd9b3";
+      tasksRef.current.style.visibility = "visible";
+    } else {
+      boxRef.current.style.backgroundColor = "";
+      tasksRef.current.style.visibility = "hidden";
     }
   };
 
   // check color of frame if mark completed
   const frameColor = () => {
-    const color = props.todos.find((x) => x.completed === false);
-
-    if (color !== undefined) {
-      setFrame("red");
-    } else {
-      setFrame("green");
-    }
+    const color = props.todos.find((task) => !task.completed);
+    setFrame(color ? "red" : "green");
   };
 
   return (
@@ -132,12 +84,7 @@ export default function Main(props) {
         gap: "5px",
       }}
     >
-      <div
-        id={props.user.id + 100}
-        className="box"
-        style={{ borderColor: frame }}
-        ref={ref}
-      >
+      <div className="box" style={{ borderColor: frame }} ref={boxRef}>
         <div
           style={{
             display: "flex",
@@ -180,7 +127,7 @@ export default function Main(props) {
           <button onClick={() => props.delete(props.user.id)}>Delete</button>
         </div>
         <div
-          id={props.user.id}
+          ref={addressRef}
           className="box"
           style={{
             visibility: "hidden",
@@ -235,6 +182,7 @@ export default function Main(props) {
         tasks={props.todos}
         posts={props.posts}
         id={props.user.id}
+        tasksRef={tasksRef}
         frame={frameColor}
         setTodos={(data) => props.setTodos(data)}
         setPosts={(data) => props.setPosts(data)}

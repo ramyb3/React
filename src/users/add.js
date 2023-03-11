@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../App.css";
 
 export default function Add(props) {
   const [name, setName] = useState("");
@@ -8,39 +7,29 @@ export default function Add(props) {
   // add user
   const add = () => {
     if (email === "" || name === "") {
-      // check if entered user empty
       alert("You must enter name and email to add user!");
     } else {
       if (email.includes("@")) {
-        // check if entered email valid
         let obj;
-        let id = props.users.map((x) => x.id);
+        let id = props.users.map((user) => user.id);
 
-        if (id.length !== 0) {
+        // if new user the first user in system
+        obj = { id: 1, name, email };
+
+        if (id.length > 0) {
           // check if new user not the first user in system
           id = Math.max(...id); // get last user id
-          obj = { id: id + 1, name: name, email: email };
-        } else {
-          // if new user the first user in system
-          obj = { id: 1, name: name, email: email };
+          obj.id = id + 1;
         }
 
         props.setUsers(obj); //add user to data
-        document.getElementById("name").value = ""; // clear name
-        document.getElementById("email").value = ""; // clear email
+        setEmail("");
+        setName("");
         props.showOrHide(); // hide addUser box
       } else {
-        // if entered email that isn't valid
         alert("You must enter a validate email!");
       }
     }
-  };
-
-  // hide addUser box
-  const cancel = () => {
-    document.getElementById("name").value = ""; // clear name
-    document.getElementById("email").value = ""; // clear email
-    props.showOrHide();
   };
 
   return (
@@ -66,7 +55,7 @@ export default function Add(props) {
           paddingTop: "5px",
         }}
       >
-        <button onClick={cancel}>Cancel</button>
+        <button onClick={props.showOrHide}>Cancel</button>
         <button onClick={add}>Add</button>
       </div>
     </div>
