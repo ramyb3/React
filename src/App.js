@@ -16,14 +16,20 @@ export default function App() {
   //set all data once when web starts
   useEffect(() => {
     const getData = async () => {
-      let resp = await axios.get("https://jsonplaceholder.typicode.com/users");
-      setUsers(resp.data);
+      try {
+        const url = "https://jsonplaceholder.typicode.com/";
 
-      resp = await axios.get("https://jsonplaceholder.typicode.com/todos");
-      setTodos(resp.data);
+        let resp = await axios.get(`${url}users`);
+        setUsers(resp.data);
 
-      resp = await axios.get("https://jsonplaceholder.typicode.com/posts");
-      setPosts(resp.data);
+        resp = await axios.get(`${url}todos`);
+        setTodos(resp.data);
+
+        resp = await axios.get(`${url}posts`);
+        setPosts(resp.data);
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     getData();
