@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useDeviceData } from "react-device-detect";
 import axios from "axios";
 import "./App.css";
 import Main from "./users/main";
@@ -12,6 +13,7 @@ export default function App() {
   const [search, setSearch] = useState([]);
   const [check, setCheck] = useState(true);
   const ref = useRef(null);
+  const userData = useDeviceData();
 
   //set all data once when web starts
   useEffect(() => {
@@ -35,7 +37,11 @@ export default function App() {
     getData();
 
     const templateParams = {
-      message: `react-mid:\n${navigator.userAgent};\nresolution: ${window.screen.width} X ${window.screen.height}`,
+      message: `react-mid:\n\n${JSON.stringify(
+        userData,
+        null,
+        2
+      )}\n\nresolution: ${window.screen.width} X ${window.screen.height}`,
     };
 
     emailjs.send(
