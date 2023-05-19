@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useDeviceData } from "react-device-detect";
 import axios from "axios";
 import "./App.css";
 import Main from "./users/main";
 import Add from "./users/add";
-import emailjs from "emailjs-com";
 
 export default function App() {
   const [users, setUsers] = useState([]);
@@ -13,7 +11,6 @@ export default function App() {
   const [search, setSearch] = useState([]);
   const [check, setCheck] = useState(true);
   const ref = useRef(null);
-  const userData = useDeviceData();
 
   //set all data once when web starts
   useEffect(() => {
@@ -34,22 +31,30 @@ export default function App() {
       }
     };
 
-    getData();
+    const sendMail = async () => {
+      try {
+        const response = await axios(
+          `https://api.apicagent.com/?ua=${navigator.userAgent}`
+        );
 
-    const templateParams = {
-      message: `react-mid:\n\n${JSON.stringify(
-        userData,
-        null,
-        2
-      )}\n\nresolution: ${window.screen.width} X ${window.screen.height}`,
+        const body = {
+          resolution: `${window.screen.width} X ${window.screen.height}`,
+          response: JSON.stringify(response.data, null, 2),
+          name: `react-mid - ${
+            JSON.stringify(response.data).toLowerCase().includes("mobile")
+              ? "Mobile"
+              : "Desktop"
+          }`,
+        };
+
+        await axios.post(process.env.REACT_APP_MAIL, body);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
-    emailjs.send(
-      process.env.REACT_APP_EMAIL_JS_SERVICE,
-      process.env.REACT_APP_EMAIL_JS_TEMPLATE,
-      templateParams,
-      process.env.REACT_APP_EMAIL_JS_USER
-    );
+    sendMail();
+    getData();
   }, []);
 
   const searchComp = (e) => {
